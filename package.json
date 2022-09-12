@@ -1,0 +1,25 @@
+{
+  "name": "younews",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Totobriac/youNews.git"
+  },
+  "author": "Pee Wee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Totobriac/youNews/issues"
+  },
+  "homepage": "https://github.com/Totobriac/youNews#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12",
+    "nodemon": "^2.0.19",
+    "pretty": "^2.0.0"
+  }
+}
