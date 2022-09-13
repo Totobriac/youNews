@@ -5,45 +5,36 @@ const Axios = require("axios");
 
 let tmpDir;
 const appPrefix = 'my-app';
+tmpDir = Fs.mkdtempSync(Path.join(Os.tmpdir(), appPrefix));
 
 exports.createVid = function (data) {
-  try {
-    tmpDir = Fs.mkdtempSync(Path.join(Os.tmpdir(), appPrefix));
+  var index = 0;
 
-    async function downloadImage() {
-      const url = 'https://unsplash.com/photos/AaEQmoufHLk/download?force=true'
-      const path = Path.resolve(tmpDir, 'code.jpg')
-      const writer = Fs.createWriteStream(path)
+  const downAll = async () => {
+    for (dt of data) {
+      index++;
+      var downPic = await downloadImage(dt);
+    }
+  }
+
+  async function downloadImage(dt) {
+    const url = dt.link;
+    const path = Path.resolve(tmpDir, index + '.jpg');
+    const writer = Fs.createWriteStream(path);
+
+    const response = await Axios({
+      url,
+      method: 'GET',
+      responseType: 'stream'
+    })
+
+    response.data.pipe(writer)
+
+    return new Promise((resolve, reject) => {
+      writer.on('finish', resolve)
+      writer.on('error', reject)
+    })
+  }
   
-      const response = await Axios({
-        url,
-        method: 'GET',
-        responseType: 'stream'
-      })
-
-      response.data.pipe(writer)
-
-      return new Promise((resolve, reject) => {
-        writer.on('finish', resolve)
-        writer.on('error', reject)
-      })
-    }
-
-    downloadImage();
-  }
-  catch {
-  }
-  /*finally {
-    try {
-      if (tmpDir) {
-        fs.rmSync(tmpDir, { recursive: true });
-      }
-    }
-    catch (e) {
-      console.error(`An error has occurred while removing the temp folder at ${tmpDir}. Please remove it manually. Error: ${e}`);
-    }
-  }*/
-
-  console.log(data);
-  console.log(tmpDir);
-};
+  downAll()
+}

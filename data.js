@@ -2,6 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 var articList = [];
+var articPicList = [];
 
 function getSlugUrl() {
 	return new Promise((resolve) => {
@@ -12,17 +13,14 @@ function getSlugUrl() {
 				var articles = $(".fig-flash__item");
 				articles.each(function (i, el) {
 					var slug = ($(el).find("h2").text()).trim();
-					var link = ($(el).find("a").attr("href"));
-					if (articList.length < 20) {
+					var link = ($(el).find("a").attr("href"));				
 						articList.push({
 							"slug": slug,
 							"link": link,
 							"picLink": null,
-						})
-					} else {
-						resolve();
-					}
+						})		
 				});
+				resolve();
 			})
 	})
 }
@@ -37,7 +35,10 @@ const src = article =>
 				var fullString = pic.attr("srcset");
 				if (fullString) {
 					var picUrl = fullString.split(" ")[0];
-					article.picLink = picUrl;
+					articPicList.push({
+						"slug": article.slug,
+						"link" : picUrl,
+					})					
 				}
 				resolve();
 			})
@@ -45,15 +46,16 @@ const src = article =>
 
 const getAllSrc = async () => {
 	for (article of articList) {
-		var picSrc = await src(article);
+		if (articPicList.length < 20 ) {
+			var picSrc = await src(article);			
+		}
 	}
 }
-
 
 async function getData() {
 	await getSlugUrl();
 	await getAllSrc();
-	return articList;
+	return articPicList;
 }
 
 module.exports.getData = getData;
