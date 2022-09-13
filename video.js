@@ -6,35 +6,38 @@ const Axios = require("axios");
 let tmpDir;
 const appPrefix = 'my-app';
 tmpDir = Fs.mkdtempSync(Path.join(Os.tmpdir(), appPrefix));
+var index = 0;
 
-exports.createVid = function (data) {
-  var index = 0;
+exports.grabPics = function (data) {
+  downLoadPics(data)
+}
 
-  const downAll = async () => {
-    for (dt of data) {
-      index++;
-      var downPic = await downloadImage(dt);
-    }
-  }
+const downAll = async (data) => {
+  for (dt of data) {
+    index++;
+    var downPic = await downloadImage(dt);
+  };
+}
 
-  async function downloadImage(dt) {
-    const url = dt.link;
-    const path = Path.resolve(tmpDir, index + '.jpg');
-    const writer = Fs.createWriteStream(path);
+async function downLoadPics(data) {
+  await downAll(data);
+}
 
-    const response = await Axios({
-      url,
-      method: 'GET',
-      responseType: 'stream'
-    })
+async function downloadImage(dt) {
+  const url = dt.link;
+  const path = Path.resolve(tmpDir, index + '.jpg');
+  const writer = Fs.createWriteStream(path);
 
-    response.data.pipe(writer)
+  const response = await Axios({
+    url,
+    method: 'GET',
+    responseType: 'stream'
+  })
 
-    return new Promise((resolve, reject) => {
-      writer.on('finish', resolve)
-      writer.on('error', reject)
-    })
-  }
-  
-  downAll()
+  response.data.pipe(writer)
+
+  return new Promise((resolve, reject) => {
+    writer.on('finish', resolve)
+    writer.on('error', reject)
+  })
 }
