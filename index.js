@@ -1,8 +1,17 @@
-var v = require("./video");
-var d = require("./data");
+var grabPics = require("./grabPics");
+var grabData = require("./data");
 
-var data = d.getData()
+var data;
+var pics;
 
-data.then(function (result) {
- v.grabPics(result);  
-})
+async function generateVideo() {
+
+	data = await grabData.getData();
+
+	pics = await grabPics.grabPics(data);
+		
+	console.log(pics);
+	
+}
+
+generateVideo();

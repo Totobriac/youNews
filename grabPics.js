@@ -4,12 +4,18 @@ const Path = require('path');
 const Axios = require("axios");
 
 let tmpDir;
-const appPrefix = 'my-app';
+const appPrefix = 'you_news';
 tmpDir = Fs.mkdtempSync(Path.join(Os.tmpdir(), appPrefix));
 var index = 0;
 
-exports.grabPics = function (data) {
-  downLoadPics(data)
+exports.grabPics = async (data) => {
+  await downLoadPics(data);
+  
+  return tmpDir;
+}
+
+async function downLoadPics(data) {
+  await downAll(data);
 }
 
 const downAll = async (data) => {
@@ -17,10 +23,6 @@ const downAll = async (data) => {
     index++;
     var downPic = await downloadImage(dt);
   };
-}
-
-async function downLoadPics(data) {
-  await downAll(data);
 }
 
 async function downloadImage(dt) {
@@ -40,4 +42,5 @@ async function downloadImage(dt) {
     writer.on('finish', resolve)
     writer.on('error', reject)
   })
+  
 }
