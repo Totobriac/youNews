@@ -1,3 +1,5 @@
+const Fs = require('fs');
+
 var ffmpeg = require('fluent-ffmpeg');
 
 exports.createVid = async (pics) => {
@@ -6,12 +8,12 @@ exports.createVid = async (pics) => {
 	return pics;
 }
 
-function boo() {
+function boo(pics) {
 	return new Promise((resolve, reject) => {
 		try {
 			var proc = new ffmpeg();
 
-			proc.addInput('pics/%d.jpg')
+			proc.addInput( pics + '/%d.jpg')
 				.on('start', () => {
 					console.log("starting");
 				})
@@ -19,6 +21,7 @@ function boo() {
 					console.log("progressing");
 				})
 				.on('end', () => {
+					Fs.rmSync(pics, { recursive: true });
 					resolve();
 				})
 				.on('error', (error) => {
