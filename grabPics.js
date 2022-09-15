@@ -28,6 +28,7 @@ const downAll = async (data) => {
 async function downloadImage(dt) {
   const url = dt.link;
   const path = Path.resolve(tmpDir, index + '.jpg');
+ 
   const writer = Fs.createWriteStream(path);
 
   const response = await Axios({

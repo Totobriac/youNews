@@ -1,5 +1,6 @@
 var grabPics = require("./grabPics");
 var grabData = require("./data");
+var createVid = require("./createVid");
 
 var data;
 var pics;
@@ -10,7 +11,9 @@ async function generateVideo() {
 
 	pics = await grabPics.grabPics(data);
 		
-	console.log(pics);
+	vid = await createVid.createVid(pics);
+
+	console.log("VIDEO DONE");
 	
 }
 

@@ -33,8 +33,10 @@ const src = article =>
 				var $ = cheerio.load(html);
 				var pic = $(".fig-media-photo");
 				var fullString = pic.attr("srcset");
-				if (fullString) {
-					var picUrl = fullString.split(" ")[0];
+				if (fullString) {					
+					var urls = fullString.split(" ");
+					var picUrl = urls[urls.length - 2];
+					console.log(picUrl);
 					articPicList.push({
 						"slug": article.slug,
 						"link" : picUrl,

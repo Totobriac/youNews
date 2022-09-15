@@ -19,8 +19,11 @@
   "dependencies": {
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
+    "ffmpeg": "0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
     "i": "^0.3.7",
     "nodemon": "^2.0.19",
-    "pretty": "^2.0.0"
+    "pretty": "^2.0.0",
+    "videoshow": "^0.1.12"
   }
 }
