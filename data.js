@@ -36,7 +36,6 @@ const src = article =>
 				if (fullString) {					
 					var urls = fullString.split(" ");
 					var picUrl = urls[urls.length - 2];
-					console.log(picUrl);
 					articPicList.push({
 						"slug": article.slug,
 						"link" : picUrl,

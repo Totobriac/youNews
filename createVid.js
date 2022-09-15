@@ -16,10 +16,7 @@ function boo(pics) {
 			proc.addInput( pics + '/%d.jpg')
 				.on('start', () => {
 					console.log("starting");
-				})
-				.on('progress', () => {
-					console.log("progressing");
-				})
+				})				
 				.on('end', () => {
 					Fs.rmSync(pics, { recursive: true });
 					resolve();
