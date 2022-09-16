@@ -2,38 +2,38 @@ const Fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 
 exports.createVid = async (pics) => {
-	var video = await boo(pics);
-	console.log(video);
+	var video = await chain(pics);
+	
 	return pics;
 }
 
-function boo(pics) {
+function chain(pics) {
 
 	return new Promise((resolve, reject) => {
 		try {
 			var proc = new ffmpeg();
 
 			proc
-				.input(pics + '/1.jpg').loop(60)
-				.input(pics + '/2.jpg').loop(60)
-				.input(pics + '/3.jpg').loop(60)
-				.input(pics + '/4.jpg').loop(60)
-				.input(pics + '/5.jpg').loop(60)
-				.input(pics + '/6.jpg').loop(60)
-				.input(pics + '/7.jpg').loop(60)
-				.input(pics + '/8.jpg').loop(60)
-				.input(pics + '/9.jpg').loop(60)
-				.input(pics + '/10.jpg').loop(60)
-				.input(pics + '/11.jpg').loop(60)
-				.input(pics + '/12.jpg').loop(60)			
-				.input(pics + '/13.jpg').loop(60)
-				.input(pics + '/14.jpg').loop(60)
-				.input(pics + '/15.jpg').loop(60)
-				.input(pics + '/16.jpg').loop(60)
-				.input(pics + '/17.jpg').loop(60)
-				.input(pics + '/18.jpg').loop(60)
-				.input(pics + '/19.jpg').loop(60)
-				.input(pics + '/20.jpg').loop(60)							
+				.input(pics + '/1final.png').loop(60)
+				.input(pics + '/2final.png').loop(60)
+				.input(pics + '/3final.png').loop(60)
+				.input(pics + '/4final.png').loop(60)
+				.input(pics + '/5final.png').loop(60)
+				.input(pics + '/6final.png').loop(60)
+				.input(pics + '/7final.png').loop(60)
+				.input(pics + '/8final.png').loop(60)
+				.input(pics + '/9final.png').loop(60)
+				.input(pics + '/10final.png').loop(60)
+				.input(pics + '/11final.png').loop(60)
+				.input(pics + '/12final.png').loop(60)			
+				.input(pics + '/13final.png').loop(60)
+				.input(pics + '/14final.png').loop(60)
+				.input(pics + '/15final.png').loop(60)
+				.input(pics + '/16final.png').loop(60)
+				.input(pics + '/17final.png').loop(60)
+				.input(pics + '/18final.png').loop(60)
+				.input(pics + '/19final.png').loop(60)
+				.input(pics + '/20final.png').loop(60)							
 				
 				.filterGraph([ 
 					'[0][1]xfade=transition=slideright:duration=1:offset=2[V1]',
@@ -62,7 +62,7 @@ function boo(pics) {
 					console.log("starting");
 				})
 				.on('end', () => {
-					Fs.rmSync(pics, { recursive: true });
+					//Fs.rmSync(pics, { recursive: true });
 					resolve();
 				})
 				.on('error', (error) => {

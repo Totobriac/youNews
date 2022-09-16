@@ -22,8 +22,8 @@
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
     "i": "^0.3.7",
+    "jimp": "^0.16.2",
     "nodemon": "^2.0.19",
-    "pretty": "^2.0.0",
-    "videoshow": "^0.1.12"
+    "pretty": "^2.0.0"    
   }
 }

@@ -1,17 +1,18 @@
 var grabPics = require("./grabPics");
 var grabData = require("./data");
 var createVid = require("./createVid");
+var editPics = require("./editPics");
 
-var data;
-var pics;
 
 async function generateVideo() {
 
-	data = await grabData.getData();
+	var data = await grabData.getData();
 
-	pics = await grabPics.grabPics(data);
+	var pics = await grabPics.grabPics(data);
+
+	var editedPics = await editPics.editPics(pics);
 		
-	vid = await createVid.createVid(pics);
+	var vid = await createVid.createVid(pics);
 
 	console.log("VIDEO DONE");
 	
