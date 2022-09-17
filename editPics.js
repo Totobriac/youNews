@@ -14,7 +14,7 @@ var editTheBack = async (data) => {
 			.then(image => {
 				image
 					.crop(241, 0, 222, 396)
-					.opacity(.1)
+					.fade(.75)
 					.gaussian(3)
 					.grayscale()
 					.resize(704, Jimp.AUTO)
@@ -26,16 +26,33 @@ var editTheBack = async (data) => {
 	}
 }
 
+var backb = Jimp.read("./black_back.png")
+	.then(resp => {
+		return resp
+	})
+
 
 var composePic = async (data) => {
 	for (let i = 1; i < 21; i++) {
+		var yOffset;
+		i % 2 === 0 ? yOffset = 160 : yOffset = 700;
 		var eff = await Jimp.read(data + '/' + i + 'back.png')
 			.then(back => {
 				Jimp.read(data + '/' + i + '.jpg')
 					.then(front => {
 						back
-							.composite(front, 0, 700)
-							.write(data + '/' + i + 'final.png');
+							.composite(front, 0, yOffset)
+					})
+					.then(resp => {
+						Jimp.read("./black_back.png")
+							.then(blackback => {
+								blackback
+									.composite(back, 0, 0)
+									.write(data + '/' + i + 'final.png');
+							})
+							.catch(err => {
+								console.error(err);
+							})
 					})
 					.catch(err => {
 						console.error(err);
