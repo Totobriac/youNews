@@ -55,14 +55,13 @@ function chain(pics) {
 					'[V16][17]xfade=transition=slideright:duration=1:offset=50[V17]',
 					'[V17][18]xfade=transition=slideleft:duration=1:offset=53[V18]',
 					'[V18][19]xfade=transition=slideup:duration=1:offset=56',
-					//'[V19][20]xfade=transition=slidedown:duration=1:offset=59',
 				])
 				
 				.on('start', () => {	
 					console.log("starting");
 				})
 				.on('end', () => {
-					//Fs.rmSync(pics, { recursive: true });
+					Fs.rmSync(pics, { recursive: true });
 					resolve();
 				})
 				.on('error', (error) => {
