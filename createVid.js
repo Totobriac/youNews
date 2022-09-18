@@ -1,11 +1,40 @@
 const Fs = require("fs");
 var ffmpeg = require("fluent-ffmpeg");
 
-exports.createVid = async (pics) => {
+exports.createVid = async (pics, text) => {
   var video = await chain(pics);
+  var videoSib = await addText(text);
 
-  return pics;
+  return;
 };
+
+function addText(text) {
+  return new Promise((resolve, reject) => {
+    try {
+      var proc = new ffmpeg();
+
+      proc
+        .input("./out.mp4")
+        .on("start", () => {
+          console.log("starting text");
+        })
+        .on("end", () => {
+          Fs.rmSync("./out.mp4", { recursive: true });
+          resolve();
+        })
+        .on("error", (error) => {
+          Fs.rmSync("./out.mp4", { recursive: true });
+          console.log(error);
+        })
+        .outputOptions(["-c:v libx264", "-r 30", "-pix_fmt yuv420p", "-vf subtitles=./log.srt"])
+        .output("video.mp4")
+        .run();
+    } catch (e) {
+      Fs.rmSync("./out.mp4", { recursive: true });
+      console.log(e);
+    }
+  });
+}
 
 function chain(pics) {
   return new Promise((resolve, reject) => {
