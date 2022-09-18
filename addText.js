@@ -1,16 +1,17 @@
 const Fs = require("fs");
-
-var logger = Fs.createWriteStream("log.srt", {
-  flags: "a",
-});
+var logger
 
 var writeLine = (line) => {
   logger.write(`\n${line}`);
 };
 
 exports.createText = async (data) => {
+  Fs.rmSync("./log.srt", { recursive: true });
+  logger = Fs.createWriteStream("log.srt", {
+    flags: "a",
+  });
   await textCreation(data);
-
+  console.log("subs created");
   return;
 };
 
@@ -21,7 +22,7 @@ var textCreation = (data) => {
       writeLine(i);
       writeLine(`00:00:${secs},500 --> 00:00:${secs + 2},000`);
       writeLine(data[i].slug);
-      writeLine("");
+      writeLine("");      
     }
     logger.end();
     resolve();

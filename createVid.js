@@ -20,7 +20,8 @@ function convert() {
           console.log("starting converting");
         })
         .on("end", () => {
-          Fs.rmSync("./log.srt", { recursive: true });
+          console.log("end converting");
+          //Fs.rmSync("./log.srt", { recursive: true });
           resolve();
         })
         .on("error", (error) => {
@@ -46,11 +47,11 @@ function addText() {
           console.log("starting text");
         })
         .on("end", () => {
-          Fs.rmSync("./out.mp4", { recursive: true });
+          //Fs.rmSync("./out.mp4", { recursive: true });
           resolve();
         })
         .on("error", (error) => {
-          Fs.rmSync("./out.mp4", { recursive: true });
+          //Fs.rmSync("./out.mp4", { recursive: true });
           console.log(error);
         })
         .complexFilter([
