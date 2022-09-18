@@ -30,14 +30,12 @@ var backb = Jimp.read("./black_back.png").then((resp) => {
 });
 
 var composePic = async (data) => {
-  for (let i = 1; i < 21; i++) {
-    var yOffset;
-    i % 2 === 0 ? (yOffset = 160) : (yOffset = 700);
+  for (let i = 1; i < 21; i++) {  
     var eff = await Jimp.read(data + "/" + i + "back.png")
       .then((back) => {
         Jimp.read(data + "/" + i + ".jpg")
           .then((front) => {
-            back.composite(front, 0, yOffset);
+            back.composite(front, 0, 700);
           })
           .then((resp) => {
             Jimp.read("./black_back.png")

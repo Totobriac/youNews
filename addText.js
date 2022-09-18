@@ -1,7 +1,5 @@
 const Fs = require("fs");
 
-Fs.rmSync("log.srt", { recursive: true });
-
 var logger = Fs.createWriteStream("log.srt", {
   flags: "a",
 });
@@ -21,7 +19,7 @@ var textCreation = (data) => {
     for (let i = 0; i < data.length; i++) {
       var secs = i * 3;
       writeLine(i);
-      writeLine(`00:00:${secs},500 --> 00:00:${secs + 2},500`);
+      writeLine(`00:00:${secs},500 --> 00:00:${secs + 2},000`);
       writeLine(data[i].slug);
       writeLine("");
     }

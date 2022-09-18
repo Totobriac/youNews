@@ -2,19 +2,46 @@ const Fs = require("fs");
 var ffmpeg = require("fluent-ffmpeg");
 
 exports.createVid = async (pics, text) => {
+  var assTxt = await convert();
   var video = await chain(pics);
-  var videoSib = await addText(text);
+  var videoSib = await addText();
 
   return;
 };
 
-function addText(text) {
+function convert() {
+  return new Promise((resolve, reject) => {
+    try {
+      var proc = new ffmpeg();
+
+      proc
+        .input("./log.srt")
+        .on("start", () => {
+          console.log("starting converting");
+        })
+        .on("end", () => {
+          Fs.rmSync("./log.srt", { recursive: true });
+          resolve();
+        })
+        .on("error", (error) => {
+          console.log(error);
+        })
+        .output("./log.ass")
+        .run();
+    } catch (e) {
+      console.log(e);
+    }
+  });
+}
+
+function addText() {
   return new Promise((resolve, reject) => {
     try {
       var proc = new ffmpeg();
 
       proc
         .input("./out.mp4")
+        .input("./news_music.mp3")
         .on("start", () => {
           console.log("starting text");
         })
@@ -26,7 +53,14 @@ function addText(text) {
           Fs.rmSync("./out.mp4", { recursive: true });
           console.log(error);
         })
-        .outputOptions(["-c:v libx264", "-r 30", "-pix_fmt yuv420p", "-vf subtitles=./log.srt"])
+        .complexFilter([
+          "subtitles=./log.ass:force_style='Fontname=Futura,Alignment=6,MarginV=30'",
+        ])
+        .outputOptions([
+          "-c:v libx264",
+          "-r 30",
+          "-pix_fmt yuv420p",          
+        ])
         .output("video.mp4")
         .run();
     } catch (e) {
