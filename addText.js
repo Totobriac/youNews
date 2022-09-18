@@ -1,21 +1,31 @@
-const Fs = require('fs');
+const Fs = require("fs");
 
-var logger = Fs.createWriteStream('log.srt', {
-  flags: 'a' 
-})
+Fs.rmSync("log.srt", { recursive: true });
 
-var writeLine = (line) => logger.write(`\n${line}`);
+var logger = Fs.createWriteStream("log.srt", {
+  flags: "a",
+});
 
+var writeLine = (line) => {
+  logger.write(`\n${line}`);
+};
 
-exports.createText = async (data) => {	
-	await writeText(data);
-	return;	
-}
+exports.createText = async (data) => {
+  await textCreation(data);
 
-var writeText = async(data) => {
-	for (let i = 0; i < data.length; i ++) {
+  return;
+};
 
-		writeLine(data[i].slug)
-	}
-	logger.end()
-}
+var textCreation = (data) => {
+  return new Promise((resolve, reject) => {
+    for (let i = 0; i < data.length; i++) {
+      var secs = i * 3;
+      writeLine(i);
+      writeLine(`00:00:${secs},500 --> 00:00:${secs + 2},500`);
+      writeLine(data[i].slug);
+      writeLine("");
+    }
+    logger.end();
+    resolve();
+  });
+};
